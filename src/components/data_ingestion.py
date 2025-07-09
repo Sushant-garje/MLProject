@@ -12,6 +12,7 @@ from model_trainer import ModelTrainer
 @dataclass
 class DataIngestionConfig:
     train_data_path: str = os.path.join("artifacts","train.csv")
+    print(train_data_path)
     test_data_path: str = os.path.join("artifacts","test.csv")
     raw_data_path: str = os.path.join("artifacts","raw.csv")
 
@@ -23,7 +24,12 @@ class DataIngestion:
         logging.info("Entered in data ingestion component")
 
         try:
-            df = pd.read_csv("/Users/sushant/Documents/PROJECTS/MLproject/notebook/data/stud.csv")
+            csv_path = os.path.join(os.path.dirname(__file__),"..","..","notebook","data","stud.csv")
+            csv_path = os.path.abspath(csv_path)
+            print(csv_path)
+
+
+            df = pd.read_csv(csv_path)
             logging.info("readed the dataset as dataframe")
 
             os.makedirs(os.path.dirname(self.config.train_data_path), exist_ok=True)
@@ -51,9 +57,9 @@ if __name__ == "__main__":
     obj = DataIngestion()
     train_data,test_data = obj.intiate_data_ingestion()
 
-    transformer = DataTransformation()
-    train_arr,test_arr,_ = transformer.initiate_data_transformation(train_data,test_data)
-
-    model_training = ModelTrainer()
-    score = model_training.initiate_model_training(train_arr,test_arr)
-    print(score)
+    # transformer = DataTransformation()
+    # train_arr,test_arr,_ = transformer.initiate_data_transformation(train_data,test_data)
+    #
+    # model_training = ModelTrainer()
+    # score = model_training.initiate_model_training(train_arr,test_arr)
+    # print(score)
